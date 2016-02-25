@@ -827,7 +827,7 @@ local function demote(receiver, member_username, member_id)
   end
   data[group]['moderators'][tostring(member_id)] = nil
   save_data(_config.moderation.data, data)
-  return send_large_msg(receiver, member_username..' صلب مدیریت شد.')
+  return send_large_msg(receiver, member_username..' حذف مدیریت شد.')
 end
 
 local function demote_by_reply(extra, success, result)
@@ -994,25 +994,25 @@ local function run(msg, matches)
       load_photo(msg.id, set_group_photo, msg)
     end
   end
-  if matches[1] == 'نصب' and not matches[2] then
+  if matches[1] == 'اضافه' and not matches[2] then
     if is_realm(msg) then
        return 'خطا : اینجا ریلم معرفی شده است'
     end
     print("گروهه "..msg.to.print_name.."("..msg.to.id..") اضافه شد")
     return modadd(msg)
   end
-   if matches[1] == 'نصب' and matches[2] == 'ریلم' then
+   if matches[1] == 'اضافه' and matches[2] == 'ریلم' then
     if is_group(msg) then
        return 'خطا : اینجا به عنوان گروه معمولی معرفی شده است'
     end
     print("گروهه "..msg.to.print_name.."("..msg.to.id..") ریلم معرفی شد")
     return realmadd(msg)
   end
-  if matches[1] == 'صلب' and not matches[2] then
+  if matches[1] == 'حذف' and not matches[2] then
     print("گروهه "..msg.to.print_name.."("..msg.to.id..") حذف شد")
     return modrem(msg)
   end
-  if matches[1] == 'صلب' and matches[2] == 'ریلم' then
+  if matches[1] == 'حذف' and matches[2] == 'ریلم' then
     print("group "..msg.to.print_name.."("..msg.to.id..") ریلم حذف شد")
     return realmrem(msg)
   end
@@ -1027,7 +1027,7 @@ local function run(msg, matches)
     local settings = data[tostring(msg.to.id)]['settings']
     if matches[1] == 'chat_add_user' then
       if not msg.service then
-        return "کیو میخوای خر کنی ؟ "
+        return "😐"
       end
       local group_member_lock = settings.lock_member
       local user = 'user#id'..msg.action.user.id
@@ -1042,7 +1042,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'chat_del_user' then
       if not msg.service then
-         -- return "کیو میخوای خر کنی ؟ "
+         -- return "😐"
       end
       local user = 'user#id'..msg.action.user.id
       local chat = 'chat#id'..msg.to.id
@@ -1050,7 +1050,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'chat_delete_photo' then
       if not msg.service then
-        return "کیو میخوای خر کنی ؟ "
+        return "😐"
       end
       local group_photo_lock = settings.lock_photo
       if group_photo_lock == 'yes' then
@@ -1078,7 +1078,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'chat_change_photo' and msg.from.id ~= 0 then
       if not msg.service then
-        return "کیو میخوای خر کنی ؟ "
+        return "😐"
       end
       local group_photo_lock = settings.lock_photo
       if group_photo_lock == 'yes' then
@@ -1106,7 +1106,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'chat_rename' then
       if not msg.service then
-        return "کیو میخوای خر کنی ؟ "
+        return "😐"
       end
       local group_name_set = settings.set_name
       local group_name_lock = settings.lock_name
@@ -1135,7 +1135,7 @@ local function run(msg, matches)
         return nil
       end
     end
-    if matches[1] == 'نصب اسم' and is_momod(msg) then
+    if matches[1] == 'تنظیم نام' and is_momod(msg) then
       local new_name = string.gsub(matches[2], '_', ' ')
       data[tostring(msg.to.id)]['settings']['set_name'] = new_name
       save_data(_config.moderation.data, data)
@@ -1145,25 +1145,25 @@ local function run(msg, matches)
       
       savelog(msg.to.id, "گروهه { "..msg.to.print_name.." }  اسمش تغییر یافت به [ "..new_name.." ] توسط "..name_log.." ["..msg.from.id.."]")
     end
-    if matches[1] == 'نصب عکس' and is_momod(msg) then
+    if matches[1] == 'تنظیم عکس' and is_momod(msg) then
       data[tostring(msg.to.id)]['settings']['set_photo'] = 'waiting'
       save_data(_config.moderation.data, data)
       return 'لطفا عکس گروه را برای من ارسال کنید'
     end
-    if matches[1] == 'ارتقا' and not matches[2] then
+    if matches[1] == 'ترفیع' and not matches[2] then
       if not is_owner(msg) then
-        return "فقط سازنده ی گروه قادر به اضافه کردن مدیر هست"
+        return "فقط سازنده گروه قادر به اضافه کردن مدیر هست"
       end
       if type(msg.reply_id)~="nil" then
           msgr = get_message(msg.reply_id, promote_by_reply, false)
       end
     end
-    if matches[1] == 'ارتقا' and matches[2] then
+    if matches[1] == 'ترفیع' and matches[2] then
       if not is_momod(msg) then
         return
       end
       if not is_owner(msg) then
-        return "فقط سازنده ی گروه قادر به اضافه کردن مدیر هست"
+        return "فقط سازنده گروه قادر به اضافه کردن مدیر هست"
       end
 	local member = matches[2]
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] این شخص ارتقا یافت به عنوان مدیر @".. member)
@@ -1178,7 +1178,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'حذف مدیر' and not matches[2] then
       if not is_owner(msg) then
-        return "فقط سازنده ی گروه قادر به صلب مدیریت است"
+        return "فقط سازنده ی گروه قادر به تنزل مدیریت است"
       end
       if type(msg.reply_id)~="nil" then
           msgr = get_message(msg.reply_id, demote_by_reply, false)
@@ -1189,10 +1189,10 @@ local function run(msg, matches)
         return
       end
       if not is_owner(msg) then
-        return "فقط سازنده ی گروه قادر به صلب مدیریت است"
+        return "فقط سازنده ی گروه قادر به تنزل مدیریت است"
       end
       if string.gsub(matches[2], "@", "") == msg.from.username and not is_owner(msg) then
-        return "شما قادر به صلب مدیریت خود نیستید"
+        return "شما قادر به تنزل مدیریت خود نیستید"
       end
 	local member = matches[2]
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] این شخص را از مدیریت برکنار کرد @".. member)
@@ -1419,7 +1419,7 @@ local function run(msg, matches)
        savelog(msg.to.id, name_log.." ["..msg.from.id.."] درخواست لینک گروه را داد ["..group_link.."]")
       return "لینک گروه برای  ("..string.gsub(msg.to.print_name, "_", " ").."):\n"..group_link
     end
-    if matches[1] == 'نصب مالک' and matches[2] then
+    if matches[1] == 'دارنده' and matches[2] then
       if not is_owner(msg) then
         return "فقط مخصوص ادمین ها و سازنده ی گروه هست"
       end
@@ -1429,7 +1429,7 @@ local function run(msg, matches)
       local text = matches[2].." به عنوان مالک گروه انتخاب شد"
       return text
     end
-    if matches[1] == 'نصب مالک' and not matches[2] then
+    if matches[1] == 'دارنده' and not matches[2] then
       if not is_owner(msg) then
         return "فقط مخصوص ادمین ها و سازنده ی گروه هست"
       end
@@ -1437,7 +1437,7 @@ local function run(msg, matches)
           msgr = get_message(msg.reply_id, setowner_by_reply, false)
       end
     end
-    if matches[1] == 'مالک' then
+    if matches[1] == 'صاحب' then
       local group_owner = data[tostring(msg.to.id)]['set_owner']
       if not group_owner then 
         return "هیچ سازنده ای وجود ندارد . از ادمین ها برای معرفی سازنده کمک بگیرید"
@@ -1537,13 +1537,13 @@ local function run(msg, matches)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *راهنما* استفاده کرد")
       return help()
     end
-    if matches[1] == 'درمورد' or matches[1] == 'ای دی' then 
+    if matches[1] == 'آیدی' or matches[1] == 'ایدی' then 
       local cbres_extra = {
         chatid = msg.to.id
       }
       local username = matches[2]
       local username = username:gsub("@","")
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *درمورد* استفاده کرد "..username)
+      savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *آیدی* استفاده کرد "..username)
       return res_user(username,  callbackres, cbres_extra)
     end
     if matches[1] == 'اخراج غیرفعال' then
@@ -1595,16 +1595,16 @@ return {
 		"settings: Return Group Settings.",
 		},
   patterns = {
-  "^(نصب)$",
-  "^(نصب) (ریلم)$",
-  "^(صلب)$",
-  "^(صلب) (ریلم)$",
+  "^(اضافه)$",
+  "^(اضافه) (ریلم)$",
+  "^(حذف)$",
+  "^(حذف) (ریلم)$",
   "^(قوانین)$",
   "^(توضیحات)$",
-  "^(نصب اسم) (.*)$",
-  "^(نصب عکس)$",
-  "^(ارتقا) (.*)$",
-  "^(ارتقا)",
+  "^(تنظیم نام) (.*)$",
+  "^(تنظیم عکس)$",
+  "^(ترفیع) (.*)$",
+  "^(ترفیع)",
   "^(راهنما)$",
   "^(پاک کردن) (.*)$",
   "^(خراب کردن) (گروه)$",
@@ -1613,11 +1613,11 @@ return {
   "^(حذف مدیر)",
   "^(تنظیم) ([^%s]+) (.*)$",
   "^(قفل) (.*)$",
-  "^(نصب مالک) (%d+)$",
-  "^(نصب مالک)",
-  "^(مالک)$",
-  "^(درمورد) (.*)$",
-  "^(نصب مالک) (%d+) (%d+)$",-- (group id) (owner id)
+  "^(دارنده) (%d+)$",
+  "^(دارنده)",
+  "^(صاحب)$",
+  "^(آیدی) (.*)$",
+  "^(دارنده) (%d+) (%d+)$",-- (group id) (owner id)
   "^(باز کردن) (.*)$",
   "^(مسدود) (%d+)$",
   "^(تنظیمات)$",
@@ -1627,7 +1627,7 @@ return {
   "^(لینک)$",
   "^(اخراج غیرفعال)$",
   "^(اخراج غیرفعال) (%d+)$",
-  "^(ای دی) (.*)$",
+  "^(ایدی) (.*)$",
   "%[(photo)%]",
   "^!!tgservice (.+)$",
   "%[(audio)%]",
