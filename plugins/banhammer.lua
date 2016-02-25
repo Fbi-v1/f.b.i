@@ -120,25 +120,25 @@ local function kick_ban_res(extra, success, result)
 end
 
 local function run(msg, matches)
- if matches[1]:lower() == 'ای دی' then
+ if matches[1]:lower() == 'ایدی' then
     if msg.to.type == "user" then
-      return "آی دی ربات: "..msg.to.id.. "\n\nای دی شما: "..msg.from.id
+      return "آی دی ربات: "..msg.to.id.. "\n\nایدی شما: "..msg.from.id
     end
     if type(msg.reply_id) ~= "nil" then
       local name = user_print_name(msg.from)
-        savelog(msg.to.id, name.." ["..msg.from.id.."] از دستور ای دی استفاده کرد ")
+        savelog(msg.to.id, name.." ["..msg.from.id.."] از دستور ایدی استفاده کرد ")
         id = get_message(msg.reply_id,get_message_callback_id, false)
-    elseif matches[1]:lower() == 'ای دی' then
+    elseif matches[1]:lower() == 'ایدی' then
       local name = user_print_name(msg.from)
-      savelog(msg.to.id, name.." ["..msg.from.id.."] از دستور ای دی استفاده کرد ")
-      return "ای دی این گروه " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id
+      savelog(msg.to.id, name.." ["..msg.from.id.."] از دستور ایدی استفاده کرد ")
+      return "ایدی این گروه " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id
     end
   end
-  if matches[1]:lower() == 'اخراجم کن' then-- /kickme
+  if matches[1]:lower() == 'خروج' then-- /kickme
   local receiver = get_receiver(msg)
     if msg.to.type == 'chat' then
       local name = user_print_name(msg.from)
-      savelog(msg.to.id, name.." ["..msg.from.id.."] با دستور اخراجم کن رفت ")-- Save to logs
+      savelog(msg.to.id, name.." ["..msg.from.id.."] با دستور "خروج"  رفت ")-- Save to logs
       chat_del_user("chat#id"..msg.to.id, "user#id"..msg.from.id, ok_cb, false)
     end
   end
@@ -147,14 +147,14 @@ local function run(msg, matches)
     return
   end
 
-  if matches[1]:lower() == "لیست مسدودان" then -- Ban list !
+  if matches[1]:lower() == "لیست بن" then -- Ban list !
     local chat_id = msg.to.id
     if matches[2] and is_admin(msg) then
       chat_id = matches[2]
     end
     return ban_list(chat_id)
   end
-  if matches[1]:lower() == 'مسدود' then-- /ban
+  if matches[1]:lower() == 'بن' then-- /ban
     if type(msg.reply_id)~="nil" and is_momod(msg) then
       if is_admin(msg) then
         local msgr = get_message(msg.reply_id,ban_by_reply_admins, false)
@@ -190,7 +190,7 @@ local function run(msg, matches)
   end
 
 
-  if matches[1]:lower() == 'صلب مسدود' then -- /unban
+  if matches[1]:lower() == 'حذف بن' then -- /unban
     if type(msg.reply_id)~="nil" and is_momod(msg) then
       local msgr = get_message(msg.reply_id,unban_by_reply, false)
     end
@@ -257,7 +257,7 @@ end
     return
   end
 
-  if matches[1]:lower() == 'مسدود از همه' then -- Global ban
+  if matches[1]:lower() == 'سوپر بن' then -- Global ban
     if type(msg.reply_id) ~="nil" and is_admin(msg) then
       return get_message(msg.reply_id,banall_by_reply, false)
     end
@@ -281,7 +281,7 @@ end
 		res_user(username, kick_ban_res, cbres_extra)
       	end
   end
-  if matches[1]:lower() == 'صلب مسدود از همه' then -- Global unban
+  if matches[1]:lower() == 'حذف سوپر بن' then -- Global unban
     local user_id = matches[2]
     local chat_id = msg.to.id
       if string.match(matches[2], '^%d+$') then
@@ -301,28 +301,28 @@ end
 		res_user(username, kick_ban_res, cbres_extra)
       end
   end
-  if matches[1]:lower() == "لیست مسدود از همه" then -- Global ban list
+  if matches[1]:lower() == "لیست سوپر بن" then -- Global ban list
     return banall_list()
   end
 end
 
 return {
   patterns = {
-    "^(مسدود از همه) (.*)$",
-    "^(مسدود از همه)$",
-    "^(لیست مسدودان) (.*)$",
-    "^(لیست مسدودان)$",
-    "^(لیست مسدود از همه)$",
-    "^(مسدود) (.*)$",
+    "^(سوپر بن) (.*)$",
+    "^(سوپر بن)$",
+    "^(لیست بن) (.*)$",
+    "^(لیست بن)$",
+    "^(لیست سوپر بن)$",
+    "^(بن) (.*)$",
     "^(اخراج)$",
-    "^(صلب مسدود) (.*)$",
-    "^(صلب مسدود از همه) (.*)$",
-    "^(صلب مسدود از همه)$",
+    "^(حذف بن) (.*)$",
+    "^(حذف سوپر بن) (.*)$",
+    "^(حذف سوپر بن)$",
     "^(اخراج) (.*)$",
-    "^(اخراجم کن)$",
-    "^(مسدود)$",
-    "^(صلب مسدود)$",
-    "^(ای دی)$",
+    "^(خروج)$",
+    "^(بن)$",
+    "^(حذف بن)$",
+    "^(ایدی)$",
     "^!!tgservice (.+)$"
   },
   run = run,
