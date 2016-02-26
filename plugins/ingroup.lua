@@ -1176,7 +1176,7 @@ local function run(msg, matches)
 	local username = string.gsub(matches[2], '@', '')
 	return res_user(username, promote_demote_res, cbres_extra)
     end
-    if matches[1] == 'حذف مدیر' and not matches[2] then
+    if matches[1] == 'تنزل' and not matches[2] then
       if not is_owner(msg) then
         return "فقط سازنده ی گروه قادر به تنزل مدیریت است"
       end
@@ -1184,7 +1184,7 @@ local function run(msg, matches)
           msgr = get_message(msg.reply_id, demote_by_reply, false)
       end
     end
-    if matches[1] == 'حذف مدیر' and matches[2] then
+    if matches[1] == 'تنزل' and matches[2] then
       if not is_momod(msg) then
         return
       end
@@ -1609,8 +1609,8 @@ return {
   "^(پاک کردن) (.*)$",
   "^(خراب کردن) (گروه)$",
   "^(خراب کردن) (ریلم)$",
-  "^(حذف مدیر) (.*)$",
-  "^(حذف مدیر)",
+  "^(تنزل) (.*)$",
+  "^(تنزل)",
   "^(تنظیم) ([^%s]+) (.*)$",
   "^(قفل) (.*)$",
   "^(دارنده) (%d+)$",
