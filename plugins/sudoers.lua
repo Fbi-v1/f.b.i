@@ -2,15 +2,15 @@ local function set_bot_photo(msg, success, result)
   local receiver = get_receiver(msg)
   if success then
     local file = 'data/photos/bot.jpg'
-    print('فایل دانلود شد به:', result)
+    print('File downloaded to:', result)
     os.rename(result, file)
-    print('فایل انتقال یافت به:', file)
+    print('File moved to:', file)
     set_profile_photo(file, ok_cb, false)
-    send_large_msg(receiver, 'عکس تغییر یافت', ok_cb, false)
+    send_large_msg(receiver, 'Photo changed!', ok_cb, false)
     redis:del("bot:photo")
   else
     print('Error downloading: '..msg.id)
-    send_large_msg(receiver, 'ناموفق شد . لطفا بعدا امتحان کنید', ok_cb, false)
+    send_large_msg(receiver, 'Failed, please try again!', ok_cb, false)
   end
 end
 local function parsed_url(link)
@@ -82,7 +82,7 @@ local function get_dialog_list_callback(cb_extra, success, result)
       end
       if v.message.from then
         if v.message.from.print_name then
-          text = text.."\n از طرف > \n"..string.gsub(v.message.from.print_name, "_"," ").."["..v.message.from.id.."]"
+          text = text.."\n From > \n"..string.gsub(v.message.from.print_name, "_"," ").."["..v.message.from.id.."]"
         end
         if v.message.from.username then
           text = text.."( "..v.message.from.username.." )"
@@ -119,76 +119,71 @@ local function run(msg,matches)
       		end
       	end
     end
-    if matches[1] == "نصب عکس ربات" then
+    if matches[1] == "setbotphoto" then
     	redis:set("bot:photo", "waiting")
-    	return 'لطفا عکس جدید را ارسال کنید'
+    	return 'Please send me bot photo now'
     end
-    if matches[1] == "خواندن" then
-    	if matches[2] == "روشن" then
+    if matches[1] == "markread" then
+    	if matches[2] == "on" then
     		redis:set("bot:markread", "on")
-    		return "پیام ها خوانده میشوند"
+    		return "Mark read > on"
     	end
-    	if matches[2] == "خاموش" then
+    	if matches[2] == "off" then
     		redis:del("bot:markread")
-    		return "پیام ها خوانده نمیشوند"
+    		return "Mark read > off"
     	end
     	return
     end
-    if matches[1] == "پیام به" then
+    if matches[1] == "pm" then
     	send_large_msg("user#id"..matches[2],matches[3])
     	return "Msg sent"
     end
-    if matches[1] == "بلاک" then
+    if matches[1] == "block" then
     	if is_admin2(matches[2]) then
-    		return "شما قادر به بلاک کردن ادمین ها نیستید"
+    		return "You can't block admins"
     	end
     	block_user("user#id"..matches[2],ok_cb,false)
-    	return "کاربر بلاک شد از ربات"
+    	return "User blocked"
     end
-    if matches[1] == "آنبلاک" then
+    if matches[1] == "unblock" then
     	unblock_user("user#id"..matches[2],ok_cb,false)
-    	return "کاربر از ربات آنبلاک شد"
+    	return "User unblocked"
     end
-    if matches[1] == "ورود" then--join by group link
+    if matches[1] == "import" then--join by group link
     	local hash = parsed_url(matches[2])
     	import_chat_link(hash,ok_cb,false)
     end
-    if matches[1] == "مخاطبان" then
+    if matches[1] == "contactlist" then
       get_contact_list(get_contact_list_callback, {target = msg.from.id})
-      return "من لیست مخاطبانم را به پیوی شما فرستادم"
+      return "I've sent contact list with both json and text format to your private"
     end
-    if matches[1] == "حذف مخاطب" then
+    if matches[1] == "delcontact" then
       del_contact("user#id"..matches[2],ok_cb,false)
-      return "کاربره "..matches[2].." از لیست مخاطبانم حذف شد"
+      return "User "..matches[2].." removed from contact list"
     end
-    if matches[1] == "لیست مکالمه" then
+    if matches[1] == "dialoglist" then
       get_dialog_list(get_dialog_list_callback, {target = msg.from.id})
-      return "من لیست مالکمه را به پیام شخصی شما فرستادم"
+      return "I've sent dialog list with both json and text format to your private"
     end
-    if matches[1] == "کیست" then
+    if matches[1] == "whois" then
       user_info("user#id"..matches[2],user_info_callback,{msg=msg})
-    end
-    if matches[1] == "sync_gbans" then
-    	if not is_sudo(msg) then-- Sudo only
-    		return
-    	end
     end
     return
 end
 return {
   patterns = {
-	"^(پیام به) (%d+) (.*)$",
-	"^(ورود) (.*)$",
-	"^(آنبلاک) (%d+)$",
-	"^(بلاک) (%d+)$",
-	"^(خواندن) (روشن)$",
-	"^(خواندن) (خاموش)$",
-	"^(تنظیم عکس ربات)$",
+	"^[!/](pm) (%d+) (.*)$",
+	"^[!/](import) (.*)$",
+	"^[!/](unblock) (%d+)$",
+	"^[!/](block) (%d+)$",
+	"^[!/](markread) (on)$",
+	"^[!/](markread) (off)$",
+	"^[!/](setbotphoto)$",
 	"%[(photo)%]",
-	"^(مخاطبان)$",
-	"^(لیست مکالمه)$",
-	"^(حذف مخاطب) (%d+)$",
-	"^(کیست) (%d+)$",
+	"^[!/](contactlist)$",
+	"^[!/](dialoglist)$",
+	"^[!/](delcontact) (%d+)$",
+	"^[!/](whois) (%d+)$"
   },
   run = run,
 }
