@@ -89,7 +89,7 @@ function check_member_group(cb_extra, success, result)
       end
       data[tostring(groups)][tostring(msg.to.id)] = msg.to.id
       save_data(_config.moderation.data, data)
-      return send_large_msg(receiver, 'شما مالک این گروه شدید.')
+      return send_large_msg(receiver, 'شما دارنده این گروه شدید.')
     end
   end
 end
@@ -121,7 +121,7 @@ local function check_member_modadd(cb_extra, success, result)
       end
       data[tostring(groups)][tostring(msg.to.id)] = msg.to.id
       save_data(_config.moderation.data, data)
-      return send_large_msg(receiver,' گروه اضافه شد و شما به عنوان مالک گروه تعیین شدید ')
+      return send_large_msg(receiver,' گروه اضافه شد و شما به عنوان دارنده گروه تعیین شدید ')
     end
   end
 end
@@ -851,8 +851,8 @@ local function setowner_by_reply(extra, success, result)
   local name_log = msg.from.print_name:gsub("_", " ")
   data[tostring(msg.to.id)]['set_owner'] = tostring(msg.from.id)
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] ارتقا داد  ["..msg.from.id.."] را به عنوان مالک گروه")
-      local text = msg.from.print_name:gsub("_", " ").." الان مالک گروه است"
+      savelog(msg.to.id, name_log.." ["..msg.from.id.."] ارتقا داد  ["..msg.from.id.."] را به عنوان دارنده گروه")
+      local text = msg.from.print_name:gsub("_", " ").." الان دارنده گروه است"
       return send_large_msg(receiver, text)
 end
 
@@ -879,7 +879,7 @@ local function modlist(msg)
   end
   -- determine if table is empty
   if next(data[tostring(msg.to.id)]['moderators']) == nil then --fix way
-    return 'هیچ مدیری در این گروه نیست . برای اضافه کردن به مالک گروه مراجعه کنید.'
+    return 'هیچ مدیری در این گروه نیست . برای اضافه کردن به دارنده گروه مراجعه کنید.'
   end
   local i = 1
   local message = '\nلیست مدیران این گروه عبارت است از  ' .. string.gsub(msg.to.print_name, '_', ' ') .. ':\n'
@@ -1425,8 +1425,8 @@ local function run(msg, matches)
       end
       data[tostring(msg.to.id)]['set_owner'] = matches[2]
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] این شخص را ["..matches[2].."] به عنوان مالک گروه انتخاب کرد")
-      local text = matches[2].." به عنوان مالک گروه انتخاب شد"
+      savelog(msg.to.id, name_log.." ["..msg.from.id.."] این شخص را ["..matches[2].."] به عنوان دارنده گروه انتخاب کرد")
+      local text = matches[2].." به عنوان دارنده گروه انتخاب شد"
       return text
     end
     if matches[1] == 'دارنده' and not matches[2] then
@@ -1442,7 +1442,7 @@ local function run(msg, matches)
       if not group_owner then 
         return "هیچ سازنده ای وجود ندارد . از ادمین ها برای معرفی سازنده کمک بگیرید"
       end
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *مالک* استفاده کرد")
+      savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *دارنده* استفاده کرد")
       return "سازنده ی گروه شخصه رو به رو است ["..group_owner..']'
     end
     if matches[1] == 'نصب سازنده' then
@@ -1471,7 +1471,7 @@ local function run(msg, matches)
     end
     if matches[1] == 'پاک کردن' then
       if not is_owner(msg) then
-        return "فقط مالک گروه قادر به پاک کردن هست"
+        return "فقط دارنده گروه قادر به پاک کردن هست"
       end
       if matches[2] == 'اعضا' then
         if not is_owner(msg) then
