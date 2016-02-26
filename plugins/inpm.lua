@@ -40,7 +40,7 @@ end
 local function run(msg, matches)
   if msg.to.type ~= 'chat' or is_sudo(msg) or is_admin(msg) and is_realm(msg) then
 	 local data = load_data(_config.moderation.data)
-    if matches[1] == 'جوین' and data[tostring(matches[2])] then
+    if matches[1] == 'ورود' and data[tostring(matches[2])] then
         if is_banned(msg.from.id, matches[2]) then
 	    return 'شما از گروهه ا مسدودید.'
 	 end
@@ -55,7 +55,7 @@ local function run(msg, matches)
    	  chat_add_user(chat_id, user_id, ok_cb, false)   
 	  local group_name = data[tostring(matches[2])]['settings']['set_name']	
 	  return "شما را اضافه کردیم به گروهه:\n\n👥"..group_name.." (ای دی:"..matches[2]..")"
-        elseif matches[1] == 'جوین' and not data[tostring(matches[2])] then
+        elseif matches[1] == 'ورود' and not data[tostring(matches[2])] then
 		
          	return "این گروه پیدا نشد."
         end
@@ -80,8 +80,8 @@ return {
     patterns = {
       "^(گروه ها)$",
       "^(لیست گروه)$",
-      "^(جوین) (.*)$",
-      "^(اخراجم کن) (.*)$",
+      "^(ورود) (.*)$",
+      "^(خروج) (.*)$",
       "^!!tgservice (chat_add_user)$"
     },
     run = run,
