@@ -124,7 +124,7 @@ local function run(msg, matches)
     local chat_id = matches[1]
     local receiver = get_receiver(msg)
     local data = load_data(_config.moderation.data)
-    if matches[2] == 'محروم' then
+    if matches[2] == 'بن' then
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
         return "سازنده ی گروه نیستید"
@@ -132,14 +132,14 @@ local function run(msg, matches)
       if tonumber(matches[3]) == tonumber(our_id) then return false end
       local user_id = matches[3]
       if tonumber(matches[3]) == tonumber(msg.from.id) then 
-        return "شما نمیتوانید خودتان را محروم کنید"
+        return "شما نمیتوانید خودتان را بن کنید"
       end
       ban_user(matches[3], matches[1])
       local name = user_print_name(msg.from)
       savelog(matches[1], name.." ["..msg.from.id.."] بن کرد ".. matches[3])
       return 'کاربره '..user_id..' بن شد'
     end
-    if matches[2] == 'آنبن' then
+    if matches[2] == 'حذف بن' then
     if tonumber(matches[3]) == tonumber(our_id) then return false end
       local chat_id = matches[1]
       if not is_owner2(msg.from.id, chat_id) then
@@ -147,13 +147,13 @@ local function run(msg, matches)
       end
       local user_id = matches[3]
       if tonumber(matches[3]) == tonumber(msg.from.id) then 
-        return "شما نمیتوانید خودتان را بن کنید"
+        return "شما نمیتوانید این دستور را روی خودتان اجرا کنید"
       end
       local hash =  'banned:'..matches[1]
       redis:srem(hash, user_id)
       local name = user_print_name(msg.from)
-      savelog(matches[1], name.." ["..msg.from.id.."] کاربر را صلب محرومیت کرد ".. matches[3])
-      return 'کاربر '..user_id..' صلب محروم شد'
+      savelog(matches[1], name.." ["..msg.from.id.."] کاربر را حذف بن کرد ".. matches[3])
+      return 'کاربر '..user_id..' حذف بن شد'
     end
     if matches[2] == 'اخراج' then
       local chat_id = matches[1]
@@ -163,7 +163,7 @@ local function run(msg, matches)
       if tonumber(matches[3]) == tonumber(our_id) then return false end
       local user_id = matches[3]
       if tonumber(matches[3]) == tonumber(msg.from.id) then 
-        return "شما فادر به حذف کردن خودتون نیستید"
+        return "شما قادر به حذف کردن خودتون نیستید"
       end
       kick_user(matches[3], matches[1])
       local name = user_print_name(msg.from)
@@ -271,11 +271,11 @@ local function run(msg, matches)
     if matches[2] == 'لینک' then 
       if matches[3] == 'بگیر' then
         if not is_owner2(msg.from.id, chat_id) then
-          return "شما سازندهی گروه نیستید"
+          return "شما سازنده ی گروه نیستید"
         end
         local group_link = data[tostring(matches[1])]['settings']['set_link']
         if not group_link then 
-          return "با دستور جدید لینک ابتدا لینک تازه بسازید"
+          return "با دستور لینک جدید ابتدا لینک تازه بسازید"
         end
         local name = user_print_name(msg.from)
         savelog(matches[1], name.." ["..msg.from.id.."] درخواست لینک کرد ["..group_link.."]")
@@ -296,7 +296,7 @@ local function run(msg, matches)
       savelog(matches[2], name.." ["..msg.from.id.."] قوانین گروه را عوض کرد به ["..matches[3].."]")
       return set_rules(target, rules)
     end
-    if matches[1] == 'نصب اسم' and is_owner2(msg.from.id, matches[2]) then
+    if matches[1] == 'تنظیم نام' and is_owner2(msg.from.id, matches[2]) then
       local new_name = string.gsub(matches[3], '_', ' ')
       data[tostring(matches[2])]['settings']['set_name'] = new_name
       save_data(_config.moderation.data, data)
@@ -318,7 +318,7 @@ return {
     "^(سازنده) (%d+) ([^%s]+)$",
     "^(تنظیم توضیحات) (%d+) (.*)$",
     "^(تنظیم قوانین) (%d+) (.*)$",
-    "^(نصب اسم) (%d+) (.*)$",
+    "^(تنظیم نام) (%d+) (.*)$",
 		"^(تاریخچه گروه) (%d+)$"
   },
   run = run
