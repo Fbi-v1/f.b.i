@@ -149,7 +149,7 @@ local function run(msg,matches)
     	unblock_user("user#id"..matches[2],ok_cb,false)
     	return "کاربر از ربات آنبلاک شد"
     end
-    if matches[1] == "جوین" then--join by group link
+    if matches[1] == "ورود" then--join by group link
     	local hash = parsed_url(matches[2])
     	import_chat_link(hash,ok_cb,false)
     end
@@ -178,7 +178,7 @@ end
 return {
   patterns = {
 	"^(پیام به) (%d+) (.*)$",
-	"^(جوین) (.*)$",
+	"^(ورود) (.*)$",
 	"^(آنبلاک) (%d+)$",
 	"^(بلاک) (%d+)$",
 	"^(خواندن) (روشن)$",
