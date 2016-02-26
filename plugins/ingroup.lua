@@ -1445,7 +1445,7 @@ local function run(msg, matches)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] از دستور *دارنده* استفاده کرد")
       return "سازنده ی گروه شخصه رو به رو است ["..group_owner..']'
     end
-    if matches[1] == 'نصب سازنده' then
+    if matches[1] == 'دارنده' then
       local receiver = "chat#id"..matches[2]
       if not is_admin(msg) then
         return "فقط برای ادمین ها !"
