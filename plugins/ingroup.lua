@@ -1456,18 +1456,18 @@ local function run(msg, matches)
       send_large_msg(receiver, text)
       return
     end
-    if matches[1] == 'حساسیت' then 
+   if matches[1] == 'حساسیت' then 
       if not is_momod(msg) then
-        return "فقط برای مدیران !!"
+        return "شما مجاز نیستید"
       end
-      if tonumber(matches[5]) < 5 or tonumber(matches[5]) > 20 then
-        return "عدد اشتباه است . حساسیت باید بین 5 تا 20 باشد"
+      if tonumber(matches[2]) < 5 or tonumber(matches[2]) > 20 then
+        return "عددی از بین 5 و 20 انتخاب کنید"
       end
       local flood_max = matches[2]
       data[tostring(msg.to.id)]['settings']['flood_msg_max'] = flood_max
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] حساسیت اسپم را تغییر داد به ["..matches[2].."]")
-      return 'حساسیت به اسپم تغییر یافت به عدد '..matches[2]
+      savelog(msg.to.id, name_log.." ["..msg.from.id.."] set flood to ["..matches[2].."]")
+      return 'حساسیت اسپم تغییر یافت به '..matches[2]
     end
     if matches[1] == 'پاک کردن' then
       if not is_owner(msg) then
