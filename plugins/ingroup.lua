@@ -1417,7 +1417,7 @@ local function run(msg, matches)
         return "ابتدا با دستور *لینک جدید* یک لینک جدید بسازید"
       end
        savelog(msg.to.id, name_log.." ["..msg.from.id.."] درخواست لینک گروه را داد ["..group_link.."]")
-      return "لینک گروه برای  ("..string.gsub(msg.to.print_name, "_", " ").."):\n"..group_link
+      return "لینک گروه برای  ("..string.gsub(msg.to.print_name, "_", " ").."):\nقدرت برگرفته از ادوان\n"..group_link
     end
     if matches[1] == 'دارنده' and matches[2] then
       if not is_owner(msg) then
