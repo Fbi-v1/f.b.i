@@ -7,8 +7,8 @@
 #👉 Bot: [@TeleAdvan](http://telegram.me/teleadvan)
 
 #👉 Developers: 
-1⃣ [@janlou](http://telegram.me/janlou)
+👤 [@janlou](http://telegram.me/janlou)
 
-2⃣ [@amiraliiiiiiiii81](http://telegram.me/amiraliiiiiiiii81)
+👤 [@amiraliiiiiiiii81](http://telegram.me/amiraliiiiiiiii81)
 
-3⃣ [@bestroid_admin](http://telegram.me/bestroid_admin)
+👤 [@bestroid_admin](http://telegram.me/bestroid_admin)
