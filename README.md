@@ -1,7 +1,5 @@
 #﴾TeleAdvan﴿
 
-
-
 #رباتی با دستورات کاملا فارسی 😯
 
 #شما میتوانید دستورات را در پلاگین ها تغییر دهید
@@ -15,4 +13,4 @@
 
 👤 [@bestroid_admin](http://telegram.me/bestroid_admin)
 
-![http://s7.picofile.com/file/8241177768/antispam_advan.jpg](http://telegram.me/teleadvan)
+![http://s7.picofile.com/file/8241177768/antispam_advan.jpg](http://s7.picofile.com/file/8241177768/antispam_advan.jpg)
