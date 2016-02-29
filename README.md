@@ -1,6 +1,6 @@
 #﴾TeleAdvan﴿
 
-![http://i.imgur.com/zW7WWWt.png](http://i.imgur.com/kPK7paz.png)
+![http://s7.picofile.com/file/8241177768/antispam_advan.jpg](http://s7.picofile.com/file/8241177768/antispam_advan.jpg)
 
 #رباتی با دستورات کاملا فارسی 😯
 
