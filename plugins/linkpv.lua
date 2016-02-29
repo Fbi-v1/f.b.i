@@ -9,13 +9,13 @@ function run(msg, matches)
        if not group_link then 
         return "اول باید لینک جدید ایجاد کنید"
        end
-         local text = "لینک گروه:\n"..group_link
+         local text = "لینک گروه :\nقدرت برگرفته از ادوان\n"..group_link
           send_large_msg('user#id'..msg.from.id, text.."\n", ok_cb, false)
 end
 
 return {
   patterns = {
-    "^[/!]([Ll]inkpv)$"
+    "^(لینک خصوصی)$",
   },
   run = run
 }
