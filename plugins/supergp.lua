@@ -5,7 +5,7 @@ local function returnids (extra, success, result)
   local chatname = result.print_name
   local id = result.peer_id
     
-  local text = ('آیدی برای گروه %s (%s):\n'):format(chatname, id)
+  local text = ('آیدی برای گروه : %s (%s):\n'):format(chatname, id)
   for k,user in ipairs(result.members) do
     local username = usernameinfo(user)
     local id = user.peer_id
