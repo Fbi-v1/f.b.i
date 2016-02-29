@@ -225,6 +225,7 @@ function create_config( )
     "arabic_lock",
     "welcome",
     "google",
+    "linkpv",
     "sudoers",
     "info",
     "add_admin",
