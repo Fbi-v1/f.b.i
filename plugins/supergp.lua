@@ -5,7 +5,7 @@ local function returnids (extra, success, result)
   local chatname = result.print_name
   local id = result.peer_id
     
-  local text = ('ID for chat %s (%s):\n'):format(chatname, id)
+  local text = ('آیدی برای گروه %s (%s):\n'):format(chatname, id)
   for k,user in ipairs(result.members) do
     local username = usernameinfo(user)
     local id = user.peer_id
@@ -43,7 +43,7 @@ local function channelUserIDs (extra, success, result)
     local username = usernameinfo (user)
     text = text..("%s - %s\n"):format(username, id)
   end
-send_large_msg(receiver, "#LIST_OF_MOD :\n\n"..text)
+send_large_msg(receiver, "لیست مدیران :\n\n"..text)
 end
 
 local function parsed_url(link)
@@ -55,12 +55,12 @@ end
 
 local function run(msg, matches)
 
-if msg.to.type == 'chat' and matches[1] == 'tosuper' and permissions(msg.from.id, msg.to.id, "tosuper") then
+if msg.to.type == 'chat' and matches[1] == 'اضافه سوپر' and permissions(msg.from.id, msg.to.id, "اضافه سوپر") then
 chat_upgrade('chat#id'..msg.to.id, ok_cb, false)
-return "Chat Upgraded Successful."
+return "گروه با موفقیت ارتقا یافت"
 end
 
-if matches[1] == 'setdes' and matches[2] and permissions(msg.from.id, msg.to.id, "mod_pro") then
+if matches[1] == 'تنظیم توضیحات' and matches[2] and permissions(msg.from.id, msg.to.id, "mod_pro") then
 if not is_momod(msg) then
 return nil
 end
@@ -68,26 +68,26 @@ local text = matches[2]
 local chat = 'channel#id'..msg.to.id
 if msg.to.type == 'channel' then
 channel_set_about(chat, text, ok_cb, false)
-return "Group Topic Has Been Changed."
+return "توضیحات گروه تغییر کرد"
 end
 end
 
 
-if matches[1] == 'listmod' and permissions(msg.from.id, msg.to.id, "mod_pro") and msg.to.type == 'channel' then
+if matches[1] == 'لیست مدیران' and permissions(msg.from.id, msg.to.id, "mod_pro") and msg.to.type == 'channel' then
    local receiver = get_receiver(msg)
    local chan = ("%s#id%s"):format(msg.to.type, msg.to.id)
    channel_get_admins(chan, channelUserIDs, {receiver=receiver})
 end
 
-if matches[1] == 'setabout' and matches[2] and msg.to.type == 'channel' and permissions(msg.from.id, msg.to.id, "mod_pro") then
+if matches[1] == 'تنظیم درباره' and matches[2] and msg.to.type == 'channel' and permissions(msg.from.id, msg.to.id, "mod_pro") then
     hash_data = matches[2]
-    hash_add = "about_channel:"..msg.to.id
+    hash_add = "درباره کانال:"..msg.to.id
 	redis:set(hash_add, hash_data)
-	return "#ABOUT_TEXT is changed to :\n\n"..matches[2].."\n\nChannel ID : "..msg.to.id
+	return "متن درباره تغییر کرد به:\n\n"..matches[2].."\n\nآیدی کانال : "..msg.to.id
 end
 
-if matches[1] == 'about' and msg.to.type == 'channel' then
-    hash_add = "about_channel:"..msg.to.id
+if matches[1] == 'درباره' and msg.to.type == 'channel' then
+    hash_add = "درباره کانال:"..msg.to.id
 	about_text = redis:get(hash_add)
 	return about_text
 end
@@ -98,11 +98,11 @@ end
 
 return {
 patterns = {
-"^#(tosuper)$",
-"^#(setdes) +(.+)$",
-"^#(listmod)$",
-"^#(setabout) +(.+)$",
-"^#(about)$",
+"^(اضافه سوپر)$",
+"^(تنظیم توضیحات) +(.+)$",
+"^(لیست مدیران)$",
+"^(تنظیم درباره) +(.+)$",
+"^(درباره)$",
 },
 run = run
 }
