@@ -9,7 +9,7 @@ function run(msg, matches)
        if not group_link then 
         return "You must first create a new link"
        end
-         local text = "لينک گروه :\nقدرت برگرفته از ادوان\n"..group_link
+         local text = "Group link :\nقدرت برگرفته از ادوان\n"..group_link
           send_large_msg('user#id'..msg.from.id, text.."\n", ok_cb, false)
 end
 
