@@ -1,4 +1,4 @@
-Local function(msg, matches)
+Local function (msg, matches)
 If matches[1] = 'help'
 Return [[ 
 🚷 !ban
