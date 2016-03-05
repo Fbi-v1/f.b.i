@@ -29,9 +29,6 @@ local function pre_process(msg)
     if msg.from.last_name then
       redis:hset(hash, 'last_name', msg.from.last_name)
     end
-    if msg.from.username then
-      redis:hset(hash, 'username', msg.from.username)
-    end
   end
 
   -- Save stats on Redis
@@ -81,9 +78,6 @@ local function pre_process(msg)
         return
       end
       kick_user(user, chat)
-      if msg.to.type == "user" then
-        block_user("user#id"..msg.from.id,ok_cb,false)--Block user if spammed in private
-      end
       local name = user_print_name(msg.from)
       --save it to log file
       savelog(msg.to.id, name.." ["..msg.from.id.."] spammed and kicked ! ")
@@ -122,7 +116,7 @@ end
 
 local function cron()
   --clear that table on the top of the plugins
-  kicktable = {}
+	kicktable = {}
 end
 
 return {
