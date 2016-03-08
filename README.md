@@ -1,4 +1,4 @@
-#﴾TeleAdvan﴿
+# <p align="center">﴾TeleAdvan﴿
 
 #رباتی با دستورات کاملا فارسی 😯
 
