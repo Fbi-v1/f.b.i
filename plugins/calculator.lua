@@ -1,5 +1,3 @@
--- Function reference: http://mathjs.org/docs/reference/functions/categorical.html
-
 local function mathjs(exp)
   local url = 'http://api.mathjs.org/v1/'
   url = url..'?expr='..URL.escape(exp)
@@ -14,14 +12,8 @@ local function mathjs(exp)
     text = 'Unexpected error\n'
       ..'Is api.mathjs.org up?'
   end
-  return text
-end
-
-local function run(msg, matches)
-  return mathjs(matches[1])
-end
-
-return {
+  return text end local function run(msg, matches)
+  return mathjs(matches[1]) end return {
   description = "Calculate math expressions with mathjs API",
   usage = "!calc [expression]: evaluates the expression and sends the result.",
   patterns = {

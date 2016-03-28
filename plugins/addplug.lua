@@ -3,7 +3,7 @@ local function run(msg, matches)
    if not is_admin(msg) then
      return "فقط سودو"
    end
- if matches[1] == "اضافه پلاگین" then
+ if matches[1] == "addplugin" then
   return text
  else
   local file = io.open("./plugins/"..matches[1], "w")
@@ -21,7 +21,7 @@ return {
   "!echo> [ext] [text] : save text to file",
  },
  patterns = {
-  "^اضافه پلاگین ([^%s]+) (.*)$",
+  "^[!/]addplugin ([^%s]+) (.*)$",
  },
  run = run
 }
