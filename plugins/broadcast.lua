@@ -1,9 +1,9 @@
 local function run(msg, matches)
-	if matches[1]:lower() == 'ارسال' and is_admin(msg) then
+	if matches[1] == 'ارسال' and is_admin(msg) then
 		local response = matches[3]
 		send_large_msg("chat#id"..matches[2], response)
 	end
-	if matches[1]:lower() == 'ارسال به همه' then
+	if matches[1] == 'ارسال به همه' then
 		if is_sudo(msg) then -- Only sudo !
 			local data = load_data(_config.moderation.data)
 			local groups = 'groups'
@@ -19,7 +19,7 @@ end
 return {
   patterns = {
     "^(ارسال به همه) +(.+)$",
-    "^(ارسال به) (%d+) (.*)$",
+    "^(ارسال) (%d+) (.*)$"
   },
   run = run
 }
