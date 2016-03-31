@@ -61,9 +61,8 @@ Return [[
 ❗️Note: باید از / و ! استفاده کنید
 ●•••••••••••••••••••••••••●
 Developers: 
-@janlou
-@amiraliiiiiiiii81
-@bestroid_admin
+@DrCyber1736
+@redteam_01_25
 ]],
 end
 End
