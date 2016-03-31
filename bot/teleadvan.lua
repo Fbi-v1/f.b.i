@@ -248,6 +248,8 @@ function create_config( )
     "owners",
     "plugins",
     "pv",
+    "isup",
+    "aparat",
     "pvhelp",
     "see",
     "set",
